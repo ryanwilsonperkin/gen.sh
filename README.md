@@ -12,7 +12,7 @@ Your prompt is replaced with a real command — edit it, run it, or hit `Tab` ag
 ## Quick start
 
 ```bash
-brew tap ryanwilsonperkin/gen https://github.com/ryanwilsonperkin/gen.sh
+brew tap ryanwilsonperkin/gen https://github.com/ryanwilsonperkin/gen
 brew install gen
 ```
 
@@ -109,14 +109,14 @@ The `-y` flag prints the command to stderr (so you can see what ran) and execute
 ### Homebrew
 
 ```bash
-brew tap ryanwilsonperkin/gen https://github.com/ryanwilsonperkin/gen.sh
+brew tap ryanwilsonperkin/gen https://github.com/ryanwilsonperkin/gen
 brew install gen
 ```
 
 ### Manual
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ryanwilsonperkin/gen.sh/main/bin/gen -o /usr/local/bin/gen
+curl -fsSL https://raw.githubusercontent.com/ryanwilsonperkin/gen/main/bin/gen -o /usr/local/bin/gen
 chmod +x /usr/local/bin/gen
 ```
 

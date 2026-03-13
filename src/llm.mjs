@@ -14,28 +14,18 @@ function createProvider(config) {
   switch (config.provider) {
     case "openai": {
       const opts = { apiKey: config.apiKey };
-      if (config.apiUrl) {
-        opts.baseURL = config.apiUrl
-          .replace(/\/chat\/completions$/, "")
-          .replace(/\/$/, "");
-      }
+      if (config.apiUrl) opts.baseURL = config.apiUrl.replace(/\/$/, "");
       return createOpenAI(opts);
     }
     case "anthropic": {
       const opts = { apiKey: config.apiKey };
-      if (config.apiUrl) {
-        opts.baseURL = config.apiUrl
-          .replace(/\/messages$/, "")
-          .replace(/\/$/, "");
-      }
+      if (config.apiUrl) opts.baseURL = config.apiUrl.replace(/\/$/, "");
       return createAnthropic(opts);
     }
     case "ollama": {
-      const baseURL =
-        config.apiUrl?.replace(/\/api\/chat$/, "") ||
-        "http://localhost:11434";
+      const baseURL = config.apiUrl || "http://localhost:11434/v1";
       return createOpenAI({
-        baseURL: `${baseURL}/v1`,
+        baseURL: baseURL.replace(/\/$/, ""),
         apiKey: "ollama",
       });
     }

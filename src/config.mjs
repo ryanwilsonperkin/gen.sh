@@ -59,11 +59,7 @@ export function loadConfig() {
   const model = process.env.GEN_MODEL || raw.model || "gpt-4o-mini";
   let apiUrl = process.env.GEN_API_URL || raw.api_url || "";
 
-  // Auto-append paths for common base URLs
-  if (apiUrl.endsWith("/v1")) {
-    if (provider === "openai") apiUrl += "/chat/completions";
-    if (provider === "anthropic") apiUrl += "/messages";
-  }
+
 
   // Auto-detect shell from parent process
   let shell = process.env.GEN_SHELL || "";

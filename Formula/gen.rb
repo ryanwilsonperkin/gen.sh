@@ -1,7 +1,7 @@
 class Gen < Formula
   desc "Generate shell commands using an LLM"
   homepage "https://github.com/ryanwilsonperkin/gen"
-  url "https://github.com/ryanwilsonperkin/gen/archive/refs/tags/v0.1.0.tar.gz"
+  url "https://github.com/ryanwilsonperkin/gen/archive/refs/tags/v0.2.0.tar.gz"
   sha256 "119c4e57bb66565e8f94d3b0ed9902b5e740f10bcb006b91230c7e1195306b5b"
   license "MIT"
 

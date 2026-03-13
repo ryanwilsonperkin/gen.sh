@@ -298,16 +298,17 @@ _json_encode() {
 }
 
 # --- Response extractors ---
+# Use ? to suppress jq errors (e.g. indexing a string) so // can fall through.
 _extract_openai() {
-    jq -r '.choices[0].message.content // .error.message // "gen: API error"'
+    jq -r '(.choices[0].message.content)? // (.error.message)? // "gen: API error"'
 }
 
 _extract_anthropic() {
-    jq -r '.content[0].text // .error.message // "gen: API error"'
+    jq -r '(.content[0].text)? // (.error.message)? // "gen: API error"'
 }
 
 _extract_ollama() {
-    jq -r '.message.content // .error // "gen: API error"'
+    jq -r '(.message.content)? // (.error)? // "gen: API error"'
 }
 
 # --- Strip markdown code fences if LLM ignores instructions ---

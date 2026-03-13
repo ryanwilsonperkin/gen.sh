@@ -45,16 +45,9 @@ function createProvider(config) {
   }
 }
 
-export async function callLLM(config, prompt, alt) {
+export async function callLLM(config, prompt) {
   const provider = createProvider(config);
-  const shellHint = `Target shell: ${config.shell}`;
-
-  let userContent;
-  if (alt) {
-    userContent = `${shellHint}\n\nPrevious command (try a different approach): ${alt}\n\nTask: ${prompt}`;
-  } else {
-    userContent = `${shellHint}\n\nTask: ${prompt}`;
-  }
+  const userContent = `Target shell: ${config.shell}\n\nTask: ${prompt}`;
 
   debug(`prompt: ${userContent}`);
 

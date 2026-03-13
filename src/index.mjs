@@ -16,12 +16,10 @@ function usage() {
 Usage:
     gen <description>          Generate a command and print to stdout
     gen -y <description>       Generate, display, and execute the command
-    gen -x "<command>"         Execute a pre-generated command (used after tab completion)
     gen --complete <words>     Tab-completion helper (internal)
 
 Options:
     -y, --yes                  Execute the generated command immediately
-    -x, --exec-display         Execute a pre-generated command (tab completion + enter)
     -h, --help                 Show this help
     -v, --version              Show version
 
@@ -71,9 +69,7 @@ Tab Completion:
 function parseArgs(argv) {
   const flags = {
     executeMode: false,
-    execDisplayMode: false,
     completeMode: false,
-    altPrev: "",
   };
   const positional = [];
 
@@ -81,12 +77,8 @@ function parseArgs(argv) {
     const arg = argv[i];
     if (arg === "-y" || arg === "--yes") {
       flags.executeMode = true;
-    } else if (arg === "-x" || arg === "--exec-display") {
-      flags.execDisplayMode = true;
     } else if (arg === "--complete") {
       flags.completeMode = true;
-    } else if (arg === "--alt") {
-      flags.altPrev = argv[++i] || "";
     } else if (arg === "--") {
       positional.push(...argv.slice(i + 1));
       break;
@@ -140,26 +132,10 @@ export async function main(argv = process.argv.slice(2)) {
     process.exit(0);
   }
 
-  const { executeMode, execDisplayMode, completeMode, altPrev, prompt } =
-    parseArgs(argv);
+  const { executeMode, completeMode, prompt } = parseArgs(argv);
 
-  debug(
-    `mode: execute=${executeMode} exec_display=${execDisplayMode} complete=${completeMode}`,
-  );
+  debug(`mode: execute=${executeMode} complete=${completeMode}`);
   debug(`prompt: '${prompt}'`);
-  if (altPrev) debug(`alt_prev: '${altPrev}'`);
-
-  // -x mode: execute a pre-generated command
-  if (execDisplayMode) {
-    if (!prompt) {
-      process.stderr.write("gen: no command provided\n");
-      process.exit(1);
-    }
-    debug(`exec-display: '${prompt}'`);
-    process.stderr.write(prompt + "\n");
-    execCommand(prompt);
-    process.exit(0);
-  }
 
   if (!prompt) {
     usage();
@@ -170,13 +146,13 @@ export async function main(argv = process.argv.slice(2)) {
 
   try {
     if (completeMode) {
-      const result = cleanForCompletion(await callLLM(config, prompt, altPrev));
+      const result = cleanForCompletion(await callLLM(config, prompt));
       debug(`complete result: '${result}'`);
       process.stdout.write(result);
       process.exit(0);
     }
 
-    const result = stripFences(await callLLM(config, prompt, ""));
+    const result = stripFences(await callLLM(config, prompt));
     debug(`final result: '${result}'`);
 
     if (executeMode) {

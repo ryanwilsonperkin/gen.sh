@@ -5,11 +5,12 @@ class Gen < Formula
   sha256 "3f72a650723820653631fe1976ae6e93090c4624162dfecef8508244d750929e"
   license "MIT"
 
-  depends_on "curl"
-  depends_on "jq"
+  depends_on "node"
 
   def install
-    bin.install "bin/gen"
+    system "npm", "install", "--production"
+    libexec.install "bin", "node_modules", "package.json"
+    (bin/"gen").write_env_script libexec/"bin/gen.mjs", PATH: "#{Formula["node"].opt_bin}:$PATH"
   end
 
   def caveats

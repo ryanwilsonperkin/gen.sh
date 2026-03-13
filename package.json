@@ -1,0 +1,28 @@
+{
+  "name": "@ryanwilsonperkin/gen",
+  "version": "0.2.0",
+  "description": "Generate shell commands from natural language using an LLM",
+  "type": "module",
+  "bin": {
+    "gen": "./bin/gen.mjs"
+  },
+  "scripts": {
+    "test": "node bin/gen.mjs --version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanwilsonperkin/gen.git"
+  },
+  "keywords": ["cli", "llm", "ai", "shell", "command-generation"],
+  "author": "Ryan Wilson-Perkin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryanwilsonperkin/gen/issues"
+  },
+  "homepage": "https://github.com/ryanwilsonperkin/gen#readme",
+  "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.58",
+    "@ai-sdk/openai": "^3.0.41",
+    "ai": "^6.0.116"
+  }
+}

@@ -106,7 +106,7 @@ The `-y` flag prints the command to stderr (so you can see what ran) and execute
 - **POSIX-compliant** — the core script runs everywhere `/bin/sh` does
 - **Multiple providers** — OpenAI, Anthropic, or Ollama (fully local)
 - **Auto-detects your shell** — generates commands appropriate for bash, zsh, fish, etc.
-- **Minimal dependencies** — just `curl` and `jq`
+- **Minimal dependencies** — just Node.js (uses the [Vercel AI SDK](https://ai-sdk.dev))
 
 ## Install
 

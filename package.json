@@ -13,7 +13,13 @@
     "type": "git",
     "url": "git+https://github.com/ryanwilsonperkin/gen.git"
   },
-  "keywords": ["cli", "llm", "ai", "shell", "command-generation"],
+  "keywords": [
+    "cli",
+    "llm",
+    "ai",
+    "shell",
+    "command-generation"
+  ],
   "author": "Ryan Wilson-Perkin",
   "license": "MIT",
   "bugs": {
@@ -23,6 +29,7 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.58",
     "@ai-sdk/openai": "^3.0.41",
-    "ai": "^6.0.116"
+    "ai": "^6.0.116",
+    "debug": "^4.4.3"
   }
 }

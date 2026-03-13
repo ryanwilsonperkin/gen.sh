@@ -1,5 +1,3 @@
-export const DEBUG = process.env.DEBUG === "1";
+import createDebug from "debug";
 
-export function debug(msg) {
-  if (DEBUG) process.stderr.write(`[gen:debug] ${msg}\n`);
-}
+export const debug = createDebug("gen");

@@ -6,7 +6,7 @@ class Gen < Formula
   license "MIT"
 
   depends_on "curl"
-  depends_on "jq" => :recommended
+  depends_on "jq"
 
   def install
     bin.install "bin/gen"

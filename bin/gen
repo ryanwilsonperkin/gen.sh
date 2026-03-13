@@ -36,16 +36,9 @@ resolve_config() {
     fi
 }
 
-# --- JSON helpers (minimal, no jq dependency at runtime if jq available) ---
+# --- JSON helpers ---
 json_get() {
-    _file="$1"
-    _key="$2"
-    if command -v jq >/dev/null 2>&1; then
-        jq -r ".$_key // empty" "$_file" 2>/dev/null
-    else
-        # Fallback: crude grep-based extraction for simple flat JSON
-        sed -n "s/.*\"$_key\"[[:space:]]*:[[:space:]]*\"\\([^\"]*\\)\".*/\\1/p" "$_file" | head -1
-    fi
+    jq -r ".$2 // empty" "$1" 2>/dev/null
 }
 
 # --- Load config ---
@@ -72,8 +65,8 @@ load_config() {
         if [ -f "/proc/$PPID/comm" ]; then
             # Linux: read directly from procfs
             GEN_SHELL="$(cat "/proc/$PPID/comm" 2>/dev/null)"
-        elif command -v ps >/dev/null 2>&1; then
-            # macOS/BSD: use ps to get parent process name
+        else
+            # macOS/BSD/POSIX: use ps to get parent process name
             GEN_SHELL="$(ps -p "$PPID" -o comm= 2>/dev/null | sed 's|.*/||')"
         fi
         # Strip leading dash (login shells show as -zsh, -bash)
@@ -288,41 +281,20 @@ EOF
 
 # --- JSON string encoder ---
 _json_encode() {
-    if command -v jq >/dev/null 2>&1; then
-        jq -Rs .
-    else
-        # POSIX fallback: escape special chars
-        _input="$(cat)"
-        _input="$(printf '%s' "$_input" | sed 's/\\/\\\\/g; s/"/\\"/g; s/	/\\t/g')"
-        _input="$(printf '%s' "$_input" | tr '\n' '\036' | sed 's/\036/\\n/g')"
-        printf '"%s"' "$_input"
-    fi
+    jq -Rs .
 }
 
 # --- Response extractors ---
 _extract_openai() {
-    if command -v jq >/dev/null 2>&1; then
-        jq -r '.choices[0].message.content // .error.message // "gen: API error"' 2>/dev/null
-    else
-        # crude fallback
-        sed -n 's/.*"content"[[:space:]]*:[[:space:]]*"\\(.*\\)".*/\1/p' | head -1 | sed 's/\\n/\n/g; s/\\"/"/g'
-    fi
+    jq -r '.choices[0].message.content // .error.message // "gen: API error"'
 }
 
 _extract_anthropic() {
-    if command -v jq >/dev/null 2>&1; then
-        jq -r '.content[0].text // .error.message // "gen: API error"' 2>/dev/null
-    else
-        sed -n 's/.*"text"[[:space:]]*:[[:space:]]*"\\(.*\\)".*/\1/p' | head -1 | sed 's/\\n/\n/g; s/\\"/"/g'
-    fi
+    jq -r '.content[0].text // .error.message // "gen: API error"'
 }
 
 _extract_ollama() {
-    if command -v jq >/dev/null 2>&1; then
-        jq -r '.message.content // .error // "gen: API error"' 2>/dev/null
-    else
-        sed -n 's/.*"content"[[:space:]]*:[[:space:]]*"\\(.*\\)".*/\1/p' | head -1 | sed 's/\\n/\n/g; s/\\"/"/g'
-    fi
+    jq -r '.message.content // .error // "gen: API error"'
 }
 
 # --- Strip markdown code fences if LLM ignores instructions ---

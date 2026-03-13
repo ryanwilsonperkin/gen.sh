@@ -51,6 +51,19 @@ load_config() {
     fi
 
     GEN_API_KEY="${GEN_API_KEY:-$(json_get "$CONFIG_FILE" api_key)}"
+
+    # If no api_key, try apiKeyHelper command
+    if [ -z "$GEN_API_KEY" ]; then
+        _helper="$(json_get "$CONFIG_FILE" apiKeyHelper)"
+        if [ -n "$_helper" ]; then
+            debug "config: running apiKeyHelper: $_helper"
+            GEN_API_KEY="$(eval "$_helper" 2>/dev/null)"
+            if [ -z "$GEN_API_KEY" ]; then
+                echo "gen: apiKeyHelper command returned empty output" >&2
+                exit 1
+            fi
+        fi
+    fi
     GEN_MODEL="${GEN_MODEL:-$(json_get "$CONFIG_FILE" model)}"
     GEN_API_URL="${GEN_API_URL:-$(json_get "$CONFIG_FILE" api_url)}"
     GEN_PROVIDER="${GEN_PROVIDER:-$(json_get "$CONFIG_FILE" provider)}"
@@ -333,6 +346,13 @@ Config:
         "api_key": "sk-...",
         "model": "gpt-4o-mini",
         "api_url": "https://api.openai.com/v1/chat/completions"
+      }
+
+    Use apiKeyHelper to fetch the key from a command (e.g. a secret manager):
+      {
+        "provider": "openai",
+        "apiKeyHelper": "op read 'op://Private/OpenAI/api_key'",
+        "model": "gpt-4o-mini"
       }
 
     Supported providers: openai, anthropic, ollama

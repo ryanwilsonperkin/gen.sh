@@ -138,6 +138,18 @@ Create `~/.config/gen/genrc.json`:
 
 The target shell is auto-detected from your current shell — no need to configure it.
 
+Instead of storing your API key in the config file, you can use `apiKeyHelper` to fetch it from a secret manager or command:
+
+```json
+{
+  "provider": "openai",
+  "apiKeyHelper": "op read 'op://Private/OpenAI/api_key'",
+  "model": "gpt-4o-mini"
+}
+```
+
+The command is run and its stdout is used as the API key. Works with 1Password CLI, `aws secretsmanager`, `security find-generic-password`, or any command that prints a key.
+
 Config is loaded from (first match wins):
 
 1. `$GEN_CONFIG` (env var, path to file)

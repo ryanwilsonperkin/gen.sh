@@ -1,0 +1,5 @@
+{
+  "provider": "openai",
+  "apiKeyHelper": "op read 'op://Private/OpenAI/api_key'",
+  "model": "gpt-4o-mini"
+}

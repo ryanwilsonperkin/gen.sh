@@ -4,7 +4,7 @@
   "description": "Generate shell commands from natural language using an LLM",
   "type": "module",
   "bin": {
-    "gen": "./bin/gen.mjs"
+    "gen": "./bin/gen"
   },
   "scripts": {
     "test": "node bin/gen.mjs --version"

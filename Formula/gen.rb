@@ -10,7 +10,7 @@ class Gen < Formula
   def install
     system "npm", "install", "--production"
     libexec.install "bin", "node_modules", "package.json"
-    (bin/"gen").write_env_script libexec/"bin/gen.mjs", PATH: "#{Formula["node"].opt_bin}:$PATH"
+    (bin/"gen").write_env_script libexec/"bin/gen", PATH: "#{Formula["node"].opt_bin}:$PATH"
   end
 
   def caveats

@@ -9,6 +9,10 @@ $ find / -type f -size +100M█
 
 Your prompt is replaced with a real command — edit it, run it, or hit `Tab` again. No copy-paste, no context switching.
 
+
+https://github.com/user-attachments/assets/782bf9cf-1bc6-47b9-8106-242b90793c73
+
+
 ## Quick start
 
 ```bash

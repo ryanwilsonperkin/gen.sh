@@ -4,7 +4,7 @@ import { loadConfig } from "./config.mjs";
 import { callLLM, stripFences, cleanForCompletion } from "./llm.mjs";
 import { SHELL_INIT } from "./completions.mjs";
 
-const VERSION = "0.2.0";
+const VERSION = "0.3.0";
 
 // ---------------------------------------------------------------------------
 // Usage

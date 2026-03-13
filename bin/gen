@@ -385,21 +385,23 @@ shell_init() {
         bash)
             cat <<'BASHINIT'
 # gen tab completion for bash
-# Uses bind -x with zero tty output to avoid bash reprinting the prompt.
-# Only intercepts tab when the line starts with "gen ".
+# Uses bind -x for READLINE_LINE access. Only intercepts "gen " lines.
+# No background jobs (bash prints job notifications inside bind -x that
+# can't be suppressed), so we use a static indicator instead.
 
 _gen_tab_handler() {
-    # Silently ignore non-gen lines (tab does nothing extra; bash will
-    # still run its built-in complete after our handler returns).
     [[ "$READLINE_LINE" == gen\ * ]] || return 0
     local prompt="${READLINE_LINE#gen }"
     [[ -z "$prompt" || "$prompt" == -* ]] && return 0
 
-    # Call the LLM — all output must be suppressed to avoid bash redraw.
-    # The spinner can't run in bash bind -x (any tty write triggers a
-    # newline + prompt reprint), so we skip it here.
+    # Show a static loading indicator at end of line, hide cursor
+    printf '\033[s \033[2m…\033[0m\033[?25l' >/dev/tty
+
     local result
     result="$(command gen --complete -- "$prompt" 2>/dev/null)"
+
+    # Clear indicator and restore cursor
+    printf '\033[u\033[K\033[?25h' >/dev/tty
 
     if [[ -n "$result" ]]; then
         READLINE_LINE="$result"

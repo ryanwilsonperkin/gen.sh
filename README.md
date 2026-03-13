@@ -12,7 +12,8 @@ Your prompt is replaced with a real command — edit it, run it, or hit `Tab` ag
 ## Quick start
 
 ```bash
-brew install ryanwilsonperkin/tap/gen
+brew tap ryanwilsonperkin/gen https://github.com/ryanwilsonperkin/gen.sh
+brew install gen
 ```
 
 Create `~/.config/gen/genrc.json`:
@@ -108,7 +109,8 @@ The `-y` flag prints the command to stderr (so you can see what ran) and execute
 ### Homebrew
 
 ```bash
-brew install ryanwilsonperkin/tap/gen
+brew tap ryanwilsonperkin/gen https://github.com/ryanwilsonperkin/gen.sh
+brew install gen
 ```
 
 ### Manual

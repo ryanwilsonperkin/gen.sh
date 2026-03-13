@@ -106,7 +106,7 @@ The `-y` flag prints the command to stderr (so you can see what ran) and execute
 - **POSIX-compliant** — the core script runs everywhere `/bin/sh` does
 - **Multiple providers** — OpenAI, Anthropic, or Ollama (fully local)
 - **Auto-detects your shell** — generates commands appropriate for bash, zsh, fish, etc.
-- **Minimal dependencies** — just `curl` and `jq`
+- **Minimal dependencies** — just Node.js (uses the [Vercel AI SDK](https://ai-sdk.dev))
 
 ## Install
 
@@ -179,15 +179,15 @@ Any config value can be overridden with an env var:
 
 ## Debugging
 
-If something isn't working, run with `DEBUG=1` to see the full request/response flow:
+If something isn't working, run with `DEBUG=gen` to see the full request/response flow:
 
 ```
-$ DEBUG=1 gen list files
-[gen:debug] config: found /Users/you/.config/gen/genrc.json
-[gen:debug] config: provider=openai model=gpt-4o-mini ...
-[gen:debug] request: POST https://api.openai.com/v1/chat/completions
-[gen:debug] raw response: {"choices":[...]}
-[gen:debug] extracted: ls
+$ DEBUG=gen gen list files
+  gen config: found /Users/you/.config/gen/genrc.json +0ms
+  gen config: provider=openai model=gpt-4o-mini ... +1ms
+  gen prompt: Target shell: zsh ... +0ms
+  gen raw result: ls +200ms
+  gen final result: 'ls' +0ms
 ls
 ```
 

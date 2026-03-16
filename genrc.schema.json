@@ -5,6 +5,11 @@
   "description": "Configuration file for gen, a CLI tool that generates shell commands using LLMs.",
   "type": "object",
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL to the JSON schema for this configuration file.",
+      "format": "uri"
+    },
     "provider": {
       "type": "string",
       "description": "The LLM provider to use.",

@@ -142,6 +142,7 @@ Instead of storing your API key in the config file, you can use `apiKeyHelper` t
 
 ```json
 {
+  "$schema": "https://raw.githubusercontent.com/ryanwilsonperkin/gen/main/genrc.schema.json",
   "provider": "openai",
   "apiKeyHelper": "op read 'op://Private/OpenAI/api_key'",
   "model": "gpt-4o-mini"

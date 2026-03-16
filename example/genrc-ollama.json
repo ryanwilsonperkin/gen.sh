@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/ryanwilsonperkin/gen/main/genrc.schema.json",
   "provider": "ollama",
   "model": "llama3"
 }

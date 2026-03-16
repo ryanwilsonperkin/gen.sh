@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/ryanwilsonperkin/gen/main/genrc.schema.json",
   "provider": "anthropic",
   "api_key": "sk-ant-your-api-key-here",
   "model": "claude-sonnet-4-20250514"

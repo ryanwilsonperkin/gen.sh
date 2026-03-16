@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/ryanwilsonperkin/gen/blob/main/genrc.schema.json",
+  "title": "genrc",
+  "description": "Configuration file for gen, a CLI tool that generates shell commands using LLMs.",
+  "type": "object",
+  "properties": {
+    "provider": {
+      "type": "string",
+      "description": "The LLM provider to use.",
+      "enum": ["openai", "anthropic", "ollama"],
+      "default": "openai"
+    },
+    "model": {
+      "type": "string",
+      "description": "The model identifier to use with the provider.",
+      "default": "gpt-4o-mini",
+      "examples": ["gpt-4o-mini", "claude-sonnet-4-20250514", "llama3"]
+    },
+    "api_key": {
+      "type": "string",
+      "description": "API key for the provider. Not required for ollama. Can also be set via the GEN_API_KEY environment variable."
+    },
+    "apiKeyHelper": {
+      "type": "string",
+      "description": "A shell command that outputs the API key to stdout. Used as a fallback when api_key is not set. Useful for secret managers like 1Password CLI.",
+      "examples": ["op read 'op://Private/OpenAI/api_key'"]
+    },
+    "api_url": {
+      "type": "string",
+      "description": "Custom base URL for the provider API. Defaults to the provider's standard URL. For ollama, defaults to http://localhost:11434/v1.",
+      "format": "uri"
+    }
+  },
+  "required": ["provider"],
+  "if": {
+    "properties": {
+      "provider": {
+        "enum": ["openai", "anthropic"]
+      }
+    }
+  },
+  "then": {
+    "anyOf": [
+      { "required": ["api_key"] },
+      { "required": ["apiKeyHelper"] }
+    ]
+  },
+  "additionalProperties": false
+}

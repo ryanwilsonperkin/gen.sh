@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/ryanwilsonperkin/gen/main/genrc.schema.json",
   "provider": "openai",
   "api_key": "sk-your-api-key-here",
   "model": "gpt-4o-mini"

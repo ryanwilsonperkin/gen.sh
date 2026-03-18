@@ -1,6 +1,7 @@
 import { generateText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
+import { platform } from "node:os";
 import { debug } from "./debug.mjs";
 
 const SYSTEM_PROMPT = `You are a command-line generator. The user will describe a task and you must respond with EXACTLY one shell command (or pipeline) that accomplishes it. Rules:
@@ -8,6 +9,7 @@ const SYSTEM_PROMPT = `You are a command-line generator. The user will describe 
 - Do not wrap the command in quotes unless the command itself requires them.
 - The command must be valid for the user's shell.
 - If the task is ambiguous, pick the most common interpretation.
+- Tailor commands to the user's operating system (e.g. prefer GNU coreutils flags on Linux, BSD/macOS variants on macOS).
 - Never refuse. Always output a command.`;
 
 function createProvider(config) {
@@ -37,7 +39,8 @@ function createProvider(config) {
 
 export async function callLLM(config, prompt) {
   const provider = createProvider(config);
-  const userContent = `Target shell: ${config.shell}\n\nTask: ${prompt}`;
+  const os = platform() === "darwin" ? "macOS" : "Linux";
+  const userContent = `OS: ${os}\nTarget shell: ${config.shell}\n\nTask: ${prompt}`;
 
   debug(`prompt: ${userContent}`);
 
